@@ -15,6 +15,7 @@ shortword = re.compile(r'\W*\b\w{1,3}\b')
 nlp = spacy.load("es_core_news_md")
 
 
+
 def to_lemma(text, csv_path):
     tokens = []
     title_lemmas= []
@@ -32,12 +33,13 @@ def to_lemma(text, csv_path):
     pd.DataFrame(title_lemmas).to_csv( csv_path, sep=';')
     return title_lemmas
     
-def wordcloud_from_column(column):
+def wordcloud_from_column(column ,fig):
     text = " ".join(column)
     wordcloud = WordCloud(stopwords=stopwords).generate(text)
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
-    plt.show()
+    print("guardado como: " + "figure_" + fig +'.png')
+    plt.savefig("./figure_" + fig +'.png')
     return text
 
 def remove_accents(input_str):
@@ -78,13 +80,13 @@ def main():
     print("Count Vectorize descripciones:")
     run_cv(descripciones)
     print("WordCloud titulo:")
-    wordcloud_from_column(titulos)
+    wordcloud_from_column(titulos , "wordcloud_titulo" )
     print("WordCloud descripcion:")
-    wordcloud_from_column(descripciones)
+    wordcloud_from_column(descripciones , "wordcloud_descripcion")
     print("WordCloud titulo lematizado:")
-    wordcloud_from_column(to_lemma(titulos,"./lemma_titles.csv"))
+    wordcloud_from_column(to_lemma(titulos,"./lemma_titles.csv") , "wordcloud_titulo_lemma")
     print("WordCloud descripcion:")
-    wordcloud_from_column(to_lemma(descripciones,"./lemma_description.csv"))
+    wordcloud_from_column(to_lemma(descripciones,"./lemma_description.csv") , "wordcloud_descripcion_lemma")
     #wordmap_from_column(titulos)
     return 
 main()

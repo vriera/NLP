@@ -4,3 +4,4 @@ scrapers/boletines/data
 scrapers/boletines/node_modules
 descriptions_lemma.csv
 title_lemmas.csv
+figure_*
